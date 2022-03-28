@@ -10,11 +10,12 @@
  produced by this compiler, along with the declarations.
  ***************************************************************************************************/
 
-% these predicates are defined in this file
-:- discontiguous compileHoldsAtTree/3, findChildren/3. 
+:- dynamic initially/1, initiatedAt/2, initiatedAt/4, terminatedAt/2, terminatedAt/4, initiates/3, terminates/3, happensAt/2, holdsFor/2, holdsAt/2, grounding/1, cyclic/1, collectIntervals/1, buildFromPoints/1, holdsForSDFluent/2.
 
-:- dynamic initially/1, initiatedAt/2, initiatedAt/4, terminatedAt/2, terminatedAt/4, initiates/3, terminates/3, happensAt/2, holdsFor/2, holdsAt/2, grounding/1.
+:- multifile indexOf/2.
 
+indexOf(Index, Entity):-
+	index(Entity, Index).
 
 compileEventDescription(Declarations, InputDescription, OutputDescription) :- 
 	consult(Declarations),
@@ -195,18 +196,18 @@ compileAnythingElse(InputDescription) :-
 	(UserHead = user:Head, !
 	;
 	Head = UserHead),
-	\+ member(Head,[initially(_F=_V),
+	\+ member(Head,[initially(F=V),
 					initiatedAt(Ui,Ti),
-					initiatedAt(Ui,_Ti1,Ti,_Ti2),
+					initiatedAt(Ui,Ti1,Ti,Ti2),
 					terminatedAt(Ut,Tt),
-					terminatedAt(Ut,_Tt1,Tt,_Tt2),
-					initiates(_Eis,_Uis,_Tis),
-					terminates(_Ets,_Uts,_Tts),
-					holdsFor(_Fhf=_Vhf,_Ihf),
-					holdsAt(_Fha=_Vha, Tha),
-					happensAt(_Eha,Tha),
-					collectIntervals(_Fc=_Vc),
-					buildFromPoints(_Fb=_Vb)]),
+					terminatedAt(Ut,Tt1,Tt,Tt2),
+					initiates(Eis,Uis,Tis),
+					terminates(Ets,Uts,Tts),
+					holdsFor(Fhf=Vhf,Ihf),
+					holdsAt(Fha=Vha, Tha),
+					happensAt(Eha,Tha),
+					collectIntervals(Fc=Vc),
+					buildFromPoints(fb=Vb)]),
 	clause(Head,Body),
 	write(Head), write(' :- '), nl,
 	tab(5), write(Body), write('.'), nl, nl, fail.
@@ -663,5 +664,4 @@ writeBodyLiterals((Head,Rest)):-
 
 writeBodyLiterals(Last) :- 
 	tab(5), write(Last), write('.'), nl, nl.
-
 

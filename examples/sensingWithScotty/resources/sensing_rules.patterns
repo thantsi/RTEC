@@ -1,0 +1,9 @@
+initiatedAt(openedWindow(R)=true, T) :- 
+	happensAt(downwardAngle(S), T).
+initiatedAt(openedWindow(R)=true, T) :- 
+	happensAt(downwardHop(S), T).
+
+terminatedAt(openedWindow(R)=true, T) :- 
+	happensAt(upwardAngle(S), T).
+terminatedAt(openedWindow(R)=true, T) :- 
+	happensAt(upwardHop(S), T).

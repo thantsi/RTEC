@@ -9,6 +9,26 @@
 % PreprocessingFlag: 'preprocessing' or 'nopreprocessing', 
 % ClockTick: temporal distance between two consecutive time-points, SDEBatch: the input narrative size asserted in a single batch
 
+handleApplication(Prolog, sensingWithScotty, LogFile, WM, Step, LastTime, StreamOrderFlag, PreprocessingFlag, ClockTick, SDEBatch) :- 
+	(Prolog=yap, 
+	 LogFile = '../examples/sensingWithScotty/results/log-YAP-sensingWithScotty.txt'
+	 ;
+	 Prolog=swi,
+	 LogFile = '../examples/sensingWithScotty/results/log-SWI-sensingWithScotty.txt'
+	),
+	WM = 210,
+	Step = 210, 
+	LastTime = 210,
+	StreamOrderFlag = ordered,
+	PreprocessingFlag = nopreprocessing, 
+	ClockTick = 1,
+	SDEBatch = 210,
+	consult('../examples/sensingWithScotty/resources/compiled_sensing_rules.prolog'),
+	consult('../examples/sensingWithScotty/resources/sensing_declarations.prolog'),
+	consult('../examples/sensingWithScotty/dataset/sensing_data.prolog'),
+	consult('../examples/sensingWithScotty/dataset/sensing_var_domain.prolog'), !.
+
+
 handleApplication(Prolog, toy, LogFile, WM, Step, LastTime, StreamOrderFlag, PreprocessingFlag, ClockTick, SDEBatch) :- 
 	(Prolog=yap, 
 	 LogFile = '../examples/toy/results/log-YAP-toy.txt'
